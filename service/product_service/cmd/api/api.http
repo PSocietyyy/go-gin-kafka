@@ -1,0 +1,68 @@
+# Product Service API Tests
+
+### TRAINS API ###
+
+### 16. Get All Trains
+GET http://localhost:8081/trains
+
+### 17. Create a Train
+POST http://localhost:8081/trains
+Content-Type: application/json
+
+{
+  "name": "Argo Bromo Anggrek",
+  "code": "ABA-01"
+}
+
+
+### TRAIN SEATS API ###
+
+### 18. Create a Train Seat
+POST http://localhost:8081/train_seats
+Content-Type: application/json
+
+{
+  "train_id": 1,
+  "seat_number": "A1"
+}
+
+### 19. Get Train Seats by Train ID
+GET http://localhost:8081/trains/1/seats
+
+
+### SCHEDULES API ###
+
+### 20. Create a Schedule
+POST http://localhost:8081/schedules
+Content-Type: application/json
+
+{
+  "train_id": 1,
+  "departure_time": "2026-10-15T08:00:00Z",
+  "arrival_time": "2026-10-15T12:00:00Z"
+}
+
+### 21. Get All Schedules
+GET http://localhost:8081/schedules
+
+
+### SCHEDULE SEATS (BOOKING) API ###
+
+### 22. Create a Schedule Seat
+POST http://localhost:8081/schedule_seats
+Content-Type: application/json
+
+{
+  "schedule_id": 1,
+  "train_seat_id": 1,
+  "status": "AVAILABLE"
+}
+
+### 23. Get Schedule Seats by Schedule ID
+GET http://localhost:8081/schedules/1/seats
+
+### 24. Book a Seat
+POST http://localhost:8081/schedule_seats/1/book
+
+### 25. Cancel a Seat Booking
+POST http://localhost:8081/schedule_seats/1/cancel
