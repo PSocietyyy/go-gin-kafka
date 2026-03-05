@@ -1,0 +1,55 @@
+@BASE_URL = http://localhost:8080
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImZlcmRpYW5zeWFoIHByYXRhbWEiLCJlbWFpbCI6ImZlcmRpQGV4YW1wbGUudGVzdCIsImV4cCI6MTc3Mjc5OTkzN30.DaK4rSGXj8dHXZg9k4QO4rAmePLUcTNBgBvjB6VdXrw
+
+### GET ALl Users
+GET {{BASE_URL}}/users
+
+### Create User
+POST {{BASE_URL}}/users
+Content-Type: application/json
+
+# {
+#     "name": "ferdiansyah",
+#     "email": "ferdi@example.test",
+#     "password": "password"
+# }
+
+{
+    "name": "admin salah",
+    "email": "admin@example.test",
+    "password": "password"
+}
+
+### Get User By ID
+GET {{BASE_URL}}/users/1
+
+### UPDATE User
+PUT {{BASE_URL}}/users/1
+Content-Type: application/json
+
+{
+    "name": "ferdiansyah pratama"
+}
+
+### DELETE User
+DELETE  {{BASE_URL}}/users/3
+
+
+### Login
+POST {{BASE_URL}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "ferdi@example.test",
+    "password": "password"
+}
+
+### Register
+POST {{BASE_URL}}/auth/register
+Content-Type: application/json
+
+{
+    "name": "ferdiansyah",
+    "email": "ferdia@example.test",
+    "password": "password"
+}
