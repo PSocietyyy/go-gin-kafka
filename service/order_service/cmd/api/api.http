@@ -1,0 +1,24 @@
+### ORDER SERVICE API TESTS ###
+
+### 26. Create an Order
+POST http://localhost:8082/orders
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "schedule_seat_id": 1
+}
+
+### 27. Get Order By ID
+GET http://localhost:8082/orders/1
+
+### 28. Update Order Status
+PUT http://localhost:8082/orders/1
+Content-Type: application/json
+
+{
+  "status": "PAID"
+}
+
+### 29. Get All Orders
+GET http://localhost:8082/orders
