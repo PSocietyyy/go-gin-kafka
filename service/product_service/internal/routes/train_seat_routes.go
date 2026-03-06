@@ -6,6 +6,7 @@ import (
 )
 
 func TrainSeatRoutes(app *gin.Engine, trainSeatHandler *handler.TrainSeatHandler) {
+	app.GET("/train_seats", trainSeatHandler.FindAll)
 	app.GET("/train_seats/:id", trainSeatHandler.FindByID)
 	app.GET("/trains/:id/seats", trainSeatHandler.FindByTrainID)
 	app.POST("/train_seats", trainSeatHandler.Create)

@@ -6,6 +6,7 @@ import (
 )
 
 func ScheduleSeatRoutes(app *gin.Engine, scheduleSeatHandler *handler.ScheduleSeatHandler) {
+	app.GET("/schedule_seats", scheduleSeatHandler.FindAll)
 	app.GET("/schedule_seats/:id", scheduleSeatHandler.FindByID)
 	app.GET("/schedules/:id/seats", scheduleSeatHandler.FindByScheduleID)
 	app.POST("/schedule_seats", scheduleSeatHandler.Create)

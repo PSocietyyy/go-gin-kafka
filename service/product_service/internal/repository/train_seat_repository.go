@@ -14,6 +14,14 @@ func NewTrainSeatRepository(db *gorm.DB) *TrainSeatRepository {
 	return &TrainSeatRepository{db: db}
 }
 
+func (r *TrainSeatRepository) FindAll() []model.TrainSeat {
+	var seats []model.TrainSeat
+	if err := r.db.Find(&seats).Error; err != nil {
+		return nil
+	}
+	return seats
+}
+
 func (r *TrainSeatRepository) FindByID(id uint) (model.TrainSeat, error) {
 	var seat model.TrainSeat
 	if err := r.db.First(&seat, id).Error; err != nil {

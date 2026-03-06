@@ -1,16 +1,18 @@
 package service
 
 import (
+	"github.com/psocietyyy/go-gin-kafka/service/product_service/internal/errors"
 	"github.com/psocietyyy/go-gin-kafka/service/product_service/internal/model"
 	"github.com/psocietyyy/go-gin-kafka/service/product_service/internal/repository"
 )
 
 type ScheduleService struct {
 	scheduleRepo *repository.ScheduleRepository
+	trainRepo    *repository.TrainRepository
 }
 
-func NewScheduleService(scheduleRepo *repository.ScheduleRepository) *ScheduleService {
-	return &ScheduleService{scheduleRepo: scheduleRepo}
+func NewScheduleService(scheduleRepo *repository.ScheduleRepository, trainRepo *repository.TrainRepository) *ScheduleService {
+	return &ScheduleService{scheduleRepo: scheduleRepo, trainRepo: trainRepo}
 }
 
 func (s *ScheduleService) FindAll() []model.Schedule {
@@ -22,6 +24,10 @@ func (s *ScheduleService) FindByID(id uint) (model.Schedule, error) {
 }
 
 func (s *ScheduleService) Create(schedule model.Schedule) (model.Schedule, error) {
+	_, err := s.trainRepo.FindByID(schedule.TrainID)
+	if err != nil {
+		return model.Schedule{}, errors.ErrTrainNotFound
+	}
 	return s.scheduleRepo.Create(schedule)
 }
 

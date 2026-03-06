@@ -18,6 +18,10 @@ func NewTrainSeatService(trainSeatRepo *repository.TrainSeatRepository, trainRep
 	}
 }
 
+func (s *TrainSeatService) FindAll() []model.TrainSeat {
+	return s.trainSeatRepo.FindAll()
+}
+
 func (s *TrainSeatService) FindByID(id uint) (model.TrainSeat, error) {
 	return s.trainSeatRepo.FindByID(id)
 }

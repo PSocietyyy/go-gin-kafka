@@ -18,6 +18,15 @@ func NewScheduleSeatHandler(scheduleSeatService *service.ScheduleSeatService) *S
 	return &ScheduleSeatHandler{scheduleSeatService: scheduleSeatService}
 }
 
+// Get All Schedule Seats
+func (h *ScheduleSeatHandler) FindAll(c *gin.Context) {
+	seats := h.scheduleSeatService.FindAll()
+	c.JSON(200, gin.H{
+		"message": "Get All Schedule Seats Successfully",
+		"data":    dto.ToScheduleSeatResponses(seats),
+	})
+}
+
 // Get ScheduleSeat By ID
 func (h *ScheduleSeatHandler) FindByID(c *gin.Context) {
 	id := c.Param("id")

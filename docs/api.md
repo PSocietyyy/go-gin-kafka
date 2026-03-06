@@ -1,250 +1,1017 @@
-# API Documentation - Ticket Booking System
+# Dokumentasi API
 
-This document provides a comprehensive overview of all available REST API endpoints across the microservices in the Ticket Booking System.
+## Auth Service
 
----
+Base URL:`http://localhost:8080/auth`
 
-## 1. Auth Service
+### Login
 
-**Base URL:** `http://localhost:8080`
+URL: `/login`
+Method: `POST`
+Request Body:
 
-### Authentication
+```json
+{
+  "email": "ferdi@example.test",
+  "password": "password"
+}
+```
 
-#### `POST /auth/login`
+Response Body:
 
-- **Description:** Login user and receive JWT
-- **Request Body:**
-  ```json
-  {
-    "email": "...",
-    "password": "..."
+```json
+{
+  "token": "eyJhbxxxx....."
+}
+```
+
+Response Error:
+
+```json
+{
+  "error": "invalid password"
+}
+```
+
+### Register
+
+URL: `/register`
+Method: `POST`
+Request Body:
+
+```json
+{
+  "name": "ferdiansyah",
+  "email": "ferdia@example.test",
+  "password": "password"
+}
+```
+
+Response Body:
+
+```json
+{
+  "message": "User created successfully"
+}
+```
+
+Response Error:
+**Duplicate Email**
+
+```json
+{
+  "error": "Error 1062 (23000): Duplicate entry 'ferdia@example.test' for key 'users.uni_users_email'"
+}
+```
+
+## User Service
+
+Base URL:`http://localhost:8080/users`
+
+### Get All Users
+
+URL: `/users`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "ferdiansyah pratama",
+      "email": "ferdi@example.test"
+    },
+    {
+      "id": 5,
+      "name": "ferdiansyah",
+      "email": "ferdia@example.test"
+    },
+    {
+      "id": 7,
+      "name": "ferdiansyah",
+      "email": "ferdian@example.test"
+    }
+  ]
+}
+```
+
+### Create User
+
+URL: `/users`
+Method: `POST`
+Request Body:
+
+```json
+{
+  "name": "admin salah",
+  "email": "admin@example.test",
+  "password": "password"
+}
+```
+
+Response Body:
+
+```json
+{
+  "message": "User created successfully"
+}
+```
+
+Response Error:
+**Duplicate Email**
+
+```json
+{
+  "error": "Error 1062 (23000): Duplicate entry 'ferdia@example.test' for key 'users.uni_users_email'"
+}
+```
+
+### Get User By ID
+
+URL: `/users/:id`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "ferdiansyah pratama",
+    "email": "ferdi@example.test"
   }
-  ```
+}
+```
 
-#### `POST /auth/register`
+Response Error:
+**User Not Found**
 
-- **Description:** Register a new user
-- **Request Body:**
-  ```json
-  {
-    "name": "...",
-    "email": "...",
-    "password": "..."
-  }
-  ```
+```json
+{
+  "error": "user not found"
+}
+```
 
-### Users Management (Protected)
+### Update User
 
-#### `GET /users`
+URL: `/users/:id`
+Method: `PUT`
+Request Body:
 
-- **Description:** Get all users
+```json
+{
+  "name": "ferdiansyah pratama",
+  "email": "ferdi@example.test",
+  "password": "password"
+}
+```
 
-#### `POST /users`
+Response Body:
 
-- **Description:** Create a new user (Admin)
-- **Request Body:**
-  ```json
-  {
-    "name": "...",
-    "email": "...",
-    "password": "..."
-  }
-  ```
+```json
+{
+  "message": "User updated successfully"
+}
+```
 
-#### `GET /users/:id`
+Response Error:
+**User Not Found**
 
-- **Description:** Get specific user detail
+```json
+{
+  "error": "user not found"
+}
+```
 
-#### `PUT /users/:id`
+**Duplicate Email**
+**Kecuali email milik sendiri**
 
-- **Description:** Update user details
-- **Request Body:**
-  ```json
-  {
-    "name": "..."
-  }
-  ```
+```json
+{
+  "error": "email already exists"
+}
+```
 
-#### `DELETE /users/:id`
+### Delete User
 
-- **Description:** Delete a user
+URL: `/users/:id`
+Method: `DELETE`
 
----
+Response Body:
 
-## 2. Product Service
+```json
+{
+  "message": "User deleted successfully"
+}
+```
 
-**Base URL:** `http://localhost:8081`
+## Product Service
+
+Base URL: `http://localhost:8081`
 
 ### Trains
 
-#### `GET /trains`
+#### Create Train
 
-- **Description:** Get all trains
+URL: `/trains`
+Method: `POST`
+Request Body:
 
-#### `GET /trains/:id`
+```json
+{
+  "name": "Argo Bromo Anggrek",
+  "code": "ABA-01"
+}
+```
 
-- **Description:** Get specific train
+Response Body:
 
-#### `POST /trains`
+```json
+{
+  "message": "Train created successfully"
+}
+```
 
-- **Description:** Create a new train
-- **Request Body:**
-  ```json
-  {
-    "name": "...",
-    "code": "..."
-  }
-  ```
+Response Error:
+**Duplicate Train**
 
-#### `PUT /trains/:id`
+```json
+{
+  "error": "Error 1062 (23000): Duplicate entry 'ABA-01' for key 'trains.uni_trains_code'"
+}
+```
 
-- **Description:** Update a train
-- **Request Body:**
-  ```json
-  {
-    "name": "...",
-    "code": "..."
-  }
-  ```
+#### Get All Trains
 
-#### `DELETE /trains/:id`
+URL: `/trains`
+Method: `GET`
 
-- **Description:** Delete a train
+Response Body:
 
-### Train Seats (Physical Seats)
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Argo Bromo Anggrek",
+      "code": "ABA-01"
+    }
+  ],
+  "message": "Get All Trains Successfully"
+}
+```
 
-#### `GET /trains/:id/seats`
+#### Get Train By ID
 
-- **Description:** Get all physical seats for a specific train
+URL: `/trains/:id`
+Method: `GET`
 
-#### `GET /train_seats/:id`
+Response Body:
 
-- **Description:** Get a specific train seat detail
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Argo Bromo Anggrek",
+    "code": "ABA-01"
+  },
+  "message": "Get Train By ID Successfully"
+}
+```
 
-#### `POST /train_seats`
+Response Error:
+**Train Not Found**
 
-- **Description:** Create a physical seat
-- **Request Body:**
-  ```json
-  {
-    "train_id": 1,
-    "seat_number": "A1"
-  }
-  ```
+```json
+{
+  "error": "train not found"
+}
+```
 
-#### `PUT /train_seats/:id`
+#### Update Train
 
-- **Description:** Update physical seat
-- **Request Body:**
-  ```json
-  {
+URL: `/trains/:id`
+Method: `PUT`
+Request Body:
+
+```json
+{
+  "name": "Argo Bromo Anggrek",
+  "code": "ABA-01"
+}
+```
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Argo Bromo Anggrek",
+    "code": "ABA-01"
+  },
+  "message": "Train Updated Successfully"
+}
+```
+
+Response Error:
+**Train Not Found**
+
+```json
+{
+  "message": "Train Not Found"
+}
+```
+
+**Duplicate Train**
+**Kecuali train milik sendiri**
+
+```json
+{
+  "message": "Failed to Update Train"
+}
+```
+
+#### Delete Train
+
+URL: `/trains/:id`
+Method: `DELETE`
+
+Response Body:
+
+```json
+{
+  "message": "Train Deleted Successfully"
+}
+```
+
+### Train Seats
+
+#### Create Train Seat
+
+URL: `/train_seats`
+Method: `POST`
+Request Body:
+
+```json
+{
+  "train_id": 1,
+  "seat_number": "A1"
+}
+```
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 2,
+    "train_id": 2,
     "seat_number": "A2"
-  }
-  ```
+  },
+  "message": "Train Seat Created Successfully"
+}
+```
 
-#### `DELETE /train_seats/:id`
+Response Error:
+**Train Not Found**
 
-- **Description:** Delete physical seat
+```json
+{
+  "message": "Train Not Found"
+}
+```
+
+#### Get All Train Seats
+
+URL: `/train_seats`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "train_id": 2,
+      "seat_number": "A1"
+    },
+    {
+      "id": 2,
+      "train_id": 2,
+      "seat_number": "A2"
+    }
+  ],
+  "message": "Get All Train Seats Successfully"
+}
+```
+
+#### Get Train Seat By ID
+
+URL: `/train_seats/:id`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "train_id": 2,
+      "seat_number": "A1"
+    },
+    {
+      "id": 2,
+      "train_id": 2,
+      "seat_number": "A2"
+    }
+  ],
+  "message": "Get Train Seats By Train ID Successfully"
+}
+```
+
+Response Error:
+**Train Seat Not Found**
+
+```json
+{
+  "data": [],
+  "message": "Get Train Seats By Train ID Successfully"
+}
+```
+
+#### Update Train Seat
+
+URL: `/train_seats/:id`
+Method: `PUT`
+Request Body:
+
+```json
+{
+  "train_id": 2,
+  "seat_number": "A2"
+}
+```
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 2,
+    "train_id": 2,
+    "seat_number": "A4"
+  },
+  "message": "Train Seat Updated Successfully"
+}
+```
+
+Response Error:
+**Train Seat Not Found**
+
+```json
+{
+  "message": "Train Seat Not Found"
+}
+```
+
+**Train Not Found**
+
+```json
+{
+  "error": "train not found",
+  "message": "Failed to Update Train Seat"
+}
+```
+
+#### Delete Train Seat
+
+URL: `/train_seats/:id`
+Method: `DELETE`
+
+Response Body:
+
+```json
+{
+  "message": "Train Seat Deleted Successfully"
+}
+```
+
+Response Error:
+**Train Seat Not Found**
+
+```json
+{
+  "message": "Train Seat Not Found"
+}
+```
 
 ### Schedules
 
-#### `GET /schedules`
+#### Create Schedule
 
-- **Description:** Get all schedules
+URL: `/schedules`
+Method: `POST`
+Request Body:
 
-#### `GET /schedules/:id`
+```json
+{
+  "train_id": 1,
+  "departure_time": "2026-10-15T08:00:00Z",
+  "arrival_time": "2026-10-15T12:00:00Z"
+}
+```
 
-- **Description:** Get a specific schedule
+Response Body:
 
-#### `POST /schedules`
+```json
+{
+  "data": {
+    "id": 2,
+    "train_id": 2,
+    "train": {
+      "id": 0,
+      "name": "",
+      "code": ""
+    },
+    "departure_time": "2026-10-15T08:00:00Z",
+    "arrival_time": "2026-10-15T12:00:00Z"
+  },
+  "message": "Schedule Created Successfully"
+}
+```
 
-- **Description:** Create a new schedule
-- **Request Body:**
-  ```json
+Response Error:
+**Train Not Found**
+
+```json
+{
+  "message": "Failed to Create Schedule"
+}
+```
+
+#### Get All Schedules
+
+URL: `/schedules`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 2,
+      "train_id": 2,
+      "train": {
+        "id": 2,
+        "name": "Argo Bromo Anggrek",
+        "code": "ABA-02"
+      },
+      "departure_time": "2026-10-15T15:00:00+07:00",
+      "arrival_time": "2026-10-15T19:00:00+07:00"
+    }
+  ],
+  "message": "Get All Schedules Successfully"
+}
+```
+
+#### Get Schedule By ID
+
+URL: `/schedules/:id`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 2,
+    "train_id": 2,
+    "train": {
+      "id": 2,
+      "name": "Argo Bromo Anggrek",
+      "code": "ABA-02"
+    },
+    "departure_time": "2026-10-15T15:00:00+07:00",
+    "arrival_time": "2026-10-15T19:00:00+07:00"
+  },
+  "message": "Get Schedule By ID Successfully"
+}
+```
+
+Response Error:
+**Schedule Not Found**
+
+```json
+{
+  "message": "Schedule Not Found"
+}
+```
+
+#### Update Schedule
+
+URL: `/schedules/:id`
+Method: `PUT`
+Request Body:
+
+```json
+{
+  "train_id": 2,
+  "departure_time": "2026-10-15T08:00:00Z",
+  "arrival_time": "2026-10-15T12:00:00Z"
+}
+```
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 2,
+    "train_id": 2,
+    "train": {
+      "id": 2,
+      "name": "Argo Bromo Anggrek",
+      "code": "ABA-02"
+    },
+    "departure_time": "2026-10-15T08:00:00Z",
+    "arrival_time": "2026-10-15T12:00:00Z"
+  },
+  "message": "Schedule Updated Successfully"
+}
+```
+
+Response Error:
+**Schedule Not Found**
+
+```json
+{
+  "message": "Schedule Not Found"
+}
+```
+
+**Train Not Found**
+
+```json
+{
+  "message": "Failed to Update Schedule"
+}
+```
+
+#### Delete Schedule
+
+URL: `/schedules/:id`
+Method: `DELETE`
+
+Response Body:
+
+```json
+{
+  "message": "Schedule Deleted Successfully"
+}
+```
+
+Response Error:
+**Schedule Not Found**
+
+```json
+{
+  "message": "Schedule Not Found"
+}
+```
+
+### Schedule Seats
+
+#### Get All Schedule Seats
+
+URL: `/schedule_seats`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "schedule_id": 3,
+      "train_seat_id": 2,
+      "status": "AVAILABLE",
+      "schedule": {
+        "id": 3,
+        "train_id": 2,
+        "train": {
+          "id": 2,
+          "name": "Argo Bromo Anggrek",
+          "code": "ABA-02"
+        },
+        "departure_time": "2026-10-15T15:00:00+07:00",
+        "arrival_time": "2026-10-15T19:00:00+07:00"
+      },
+      "train_seat": {
+        "id": 2,
+        "train_id": 2,
+        "seat_number": "A4"
+      }
+    },
+    {
+      "id": 2,
+      "schedule_id": 3,
+      "train_seat_id": 2,
+      "status": "AVAILABLE",
+      "schedule": {
+        "id": 3,
+        "train_id": 2,
+        "train": {
+          "id": 2,
+          "name": "Argo Bromo Anggrek",
+          "code": "ABA-02"
+        },
+        "departure_time": "2026-10-15T15:00:00+07:00",
+        "arrival_time": "2026-10-15T19:00:00+07:00"
+      },
+      "train_seat": {
+        "id": 2,
+        "train_id": 2,
+        "seat_number": "A4"
+      }
+    }
+  ],
+  "message": "Get All Schedule Seats Successfully"
+}
+```
+
+#### Create Schedule Seat
+
+URL: `/schedule_seats`
+Method: `POST`
+Request Body:
+
+```json
+{
+  "schedule_id": 3,
+  "train_seat_id": 2,
+  "status": "AVAILABLE"
+}
+```
+
+Response Body:
+
+```json
+{
+  "data": {
+    "id": 3,
+    "schedule_id": 3,
+    "train_seat_id": 2,
+    "status": "AVAILABLE",
+    "schedule": {
+      "id": 0,
+      "train_id": 0,
+      "train": {
+        "id": 0,
+        "name": "",
+        "code": ""
+      },
+      "departure_time": "0001-01-01T00:00:00Z",
+      "arrival_time": "0001-01-01T00:00:00Z"
+    },
+    "train_seat": {
+      "id": 0,
+      "train_id": 0,
+      "seat_number": ""
+    }
+  },
+  "message": "Schedule Seat Created Successfully"
+}
+```
+
+#### Get Schedule Seat By Schedule ID
+
+URL: `/schedules/:id/seats`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "schedule_id": 3,
+      "train_seat_id": 2,
+      "status": "AVAILABLE",
+      "schedule": {
+        "id": 3,
+        "train_id": 2,
+        "train": {
+          "id": 2,
+          "name": "Argo Bromo Anggrek",
+          "code": "ABA-02"
+        },
+        "departure_time": "2026-10-15T15:00:00+07:00",
+        "arrival_time": "2026-10-15T19:00:00+07:00"
+      },
+      "train_seat": {
+        "id": 2,
+        "train_id": 2,
+        "seat_number": "A4"
+      }
+    },
+    {
+      "id": 2,
+      "schedule_id": 3,
+      "train_seat_id": 2,
+      "status": "AVAILABLE",
+      "schedule": {
+        "id": 3,
+        "train_id": 2,
+        "train": {
+          "id": 2,
+          "name": "Argo Bromo Anggrek",
+          "code": "ABA-02"
+        },
+        "departure_time": "2026-10-15T15:00:00+07:00",
+        "arrival_time": "2026-10-15T19:00:00+07:00"
+      },
+      "train_seat": {
+        "id": 2,
+        "train_id": 2,
+        "seat_number": "A4"
+      }
+    },
+    {
+      "id": 3,
+      "schedule_id": 3,
+      "train_seat_id": 2,
+      "status": "AVAILABLE",
+      "schedule": {
+        "id": 3,
+        "train_id": 2,
+        "train": {
+          "id": 2,
+          "name": "Argo Bromo Anggrek",
+          "code": "ABA-02"
+        },
+        "departure_time": "2026-10-15T15:00:00+07:00",
+        "arrival_time": "2026-10-15T19:00:00+07:00"
+      },
+      "train_seat": {
+        "id": 2,
+        "train_id": 2,
+        "seat_number": "A4"
+      }
+    }
+  ],
+  "message": "Get Schedule Seats By Schedule ID Successfully"
+}
+```
+
+#### Book a Seat
+
+URL: `/schedule_seats/:id/book`
+Method: `POST`
+
+Response Body:
+
+```json
+{
+  "message": "Seat Booked Successfully"
+}
+```
+
+Response Error:
+**Seat Not Found**
+
+```json
+{
+  "message": "Schedule Seat Not Found"
+}
+```
+
+#### Cancel a Seat Booking
+
+URL: `/schedule_seats/:id/cancel`
+Method: `POST`
+
+Response Body:
+
+```json
+{
+  "message": "Seat Booking Cancelled Successfully"
+}
+```
+
+Response Error:
+**Seat Not Found**
+
+```json
+{
+  "message": "Schedule Seat Not Found"
+}
+```
+
+## Order Service
+
+BASE URL: `http://localhost:8082`
+
+### Create an Order
+
+URL: `/orders`
+Method: `POST`
+
+Request Body:
+
+```json
+{
+  "user_id": 1,
+  "schedule_seat_id": 1
+}
+```
+
+Response Body:
+
+```json
+{
+  "message": "Order created successfully"
+}
+```
+
+### Get Order by ID
+
+URL: `/orders/:id`
+Method: `GET`
+
+Response Body:
+
+```json
+{
+  "ID": 1,
+  "UserID": 1,
+  "ScheduleSeatID": 1,
+  "Status": "PAID",
+  "CreatedAt": "2026-03-05T23:09:38.841+07:00",
+  "UpdatedAt": "2026-03-05T23:09:50.98+07:00"
+}
+```
+
+### Update Status
+
+URL: `/orders/:id`
+Method: `PUT`
+
+Request Body:
+
+```json
+{
+  "status": "PAID"
+}
+```
+
+Response Body:
+
+```json
+{
+  "message": "Order status updated successfully"
+}
+```
+
+### Get All Orders
+
+URL: `/orders`
+Method: `GET`
+
+Response Body:
+
+```json
+[
   {
-    "train_id": 1,
-    "departure_time": "...",
-    "arrival_time": "..."
-  }
-  ```
-
-#### `PUT /schedules/:id`
-
-- **Description:** Update a schedule
-- **Request Body:**
-  ```json
+    "ID": 1,
+    "UserID": 1,
+    "ScheduleSeatID": 1,
+    "Status": "PAID",
+    "CreatedAt": "2026-03-05T23:09:38.841+07:00",
+    "UpdatedAt": "2026-03-06T07:02:08.568+07:00"
+  },
   {
-    "departure_time": "..."
-  }
-  ```
-
-#### `DELETE /schedules/:id`
-
-- **Description:** Delete a schedule
-
-### Schedule Seats (Booking Status)
-
-#### `GET /schedules/:id/seats`
-
-- **Description:** Get all seat mapped for a schedule including their status (Available/Booked)
-
-#### `GET /schedule_seats/:id`
-
-- **Description:** Get detail for a specific schedule seat
-
-#### `POST /schedule_seats`
-
-- **Description:** Map a physical train seat into a schedule
-- **Request Body:**
-  ```json
+    "ID": 2,
+    "UserID": 1,
+    "ScheduleSeatID": 1,
+    "Status": "PENDING",
+    "CreatedAt": "2026-03-06T06:59:51.704+07:00",
+    "UpdatedAt": "2026-03-06T06:59:51.704+07:00"
+  },
   {
-    "schedule_id": 1,
-    "train_seat_id": 1,
-    "status": "AVAILABLE"
+    "ID": 3,
+    "UserID": 1,
+    "ScheduleSeatID": 1,
+    "Status": "PENDING",
+    "CreatedAt": "2026-03-06T07:01:04.389+07:00",
+    "UpdatedAt": "2026-03-06T07:01:04.389+07:00"
   }
-  ```
-
-#### `POST /schedule_seats/:id/book`
-
-- **Description:** Book a schedule seat
-
-#### `POST /schedule_seats/:id/cancel`
-
-- **Description:** Cancel a booking for a schedule seat
-
----
-
-## 3. Order Service
-
-**Base URL:** `http://localhost:8082`
-
-### Orders
-
-#### `GET /orders`
-
-- **Description:** Get all orders
-
-#### `GET /orders/:id`
-
-- **Description:** Get specific order detail
-
-#### `POST /orders`
-
-- **Description:** Create a new order
-- **Request Body:**
-  ```json
-  {
-    "user_id": 1,
-    "schedule_seat_id": 1
-  }
-  ```
-
-#### `PUT /orders/:id`
-
-- **Description:** Update order status
-- **Request Body:**
-  ```json
-  {
-    "status": "PAID"
-  }
-  ```
+]
+```

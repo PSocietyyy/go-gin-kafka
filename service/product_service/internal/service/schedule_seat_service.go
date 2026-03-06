@@ -14,6 +14,10 @@ func NewScheduleSeatService(scheduleSeatRepo *repository.ScheduleSeatRepository)
 	return &ScheduleSeatService{scheduleSeatRepo: scheduleSeatRepo}
 }
 
+func (s *ScheduleSeatService) FindAll() []model.ScheduleSeat {
+	return s.scheduleSeatRepo.FindAll()
+}
+
 func (s *ScheduleSeatService) FindByID(id uint) (model.ScheduleSeat, error) {
 	return s.scheduleSeatRepo.FindByID(id)
 }

@@ -18,6 +18,15 @@ func NewTrainSeatHandler(trainSeatService *service.TrainSeatService) *TrainSeatH
 	return &TrainSeatHandler{trainSeatService: trainSeatService}
 }
 
+// Get All
+func (h *TrainSeatHandler) FindAll(c *gin.Context) {
+	seats := h.trainSeatService.FindAll()
+	c.JSON(200, gin.H{
+		"message": "Get All Train Seats Successfully",
+		"data":    dto.ToTrainSeatResponses(seats),
+	})
+}
+
 // Get TrainSeat By ID
 func (h *TrainSeatHandler) FindByID(c *gin.Context) {
 	id := c.Param("id")

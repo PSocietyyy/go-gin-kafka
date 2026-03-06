@@ -64,6 +64,10 @@ func (h *ScheduleHandler) Create(c *gin.Context) {
 	}
 	schedule, err := h.scheduleService.Create(schedule)
 	if err != nil {
+		if err == trainError.ErrTrainNotFound {
+			c.JSON(404, gin.H{"message": "Train Not Found"})
+			return
+		}
 		c.JSON(500, gin.H{"message": "Failed to Create Schedule", "error": err.Error()})
 		return
 	}

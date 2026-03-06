@@ -11,11 +11,26 @@ Content-Type: application/json
 
 {
   "name": "Argo Bromo Anggrek",
+  "code": "ABA-02"
+}
+
+### 17.1 Update a Train
+PUT http://localhost:8081/trains/100
+Content-Type: application/json
+
+{
+  "name": "Argo Bromo Anggrek",
   "code": "ABA-01"
 }
 
+### 17.2 Delete a Train
+DELETE http://localhost:8081/trains/1
+
 
 ### TRAIN SEATS API ###
+
+### Get All Train Seats
+GET http://localhost:8081/train_seats
 
 ### 18. Create a Train Seat
 POST http://localhost:8081/train_seats
@@ -23,12 +38,23 @@ Content-Type: application/json
 
 {
   "train_id": 1,
-  "seat_number": "A1"
+  "seat_number": "A2"
 }
 
 ### 19. Get Train Seats by Train ID
-GET http://localhost:8081/trains/1/seats
+GET http://localhost:8081/trains/2/seats
 
+### Update a Train Seat
+PUT http://localhost:8081/train_seats/2
+Content-Type: application/json
+
+{
+  "train_id": 2,
+  "seat_number": "A4"
+}
+
+### Delete a Train Seat
+DELETE http://localhost:8081/train_seats/1
 
 ### SCHEDULES API ###
 
@@ -37,7 +63,7 @@ POST http://localhost:8081/schedules
 Content-Type: application/json
 
 {
-  "train_id": 1,
+  "train_id": 2,
   "departure_time": "2026-10-15T08:00:00Z",
   "arrival_time": "2026-10-15T12:00:00Z"
 }
@@ -45,24 +71,43 @@ Content-Type: application/json
 ### 21. Get All Schedules
 GET http://localhost:8081/schedules
 
+### 21.1 Get Schedule By ID
+GET http://localhost:8081/schedules/2
+
+### 21.2 Update Schedule
+PUT http://localhost:8081/schedules/2
+Content-Type: application/json
+
+{
+  "train_id": 2,
+  "departure_time": "2026-10-15T08:00:00Z",
+  "arrival_time": "2026-10-15T12:00:00Z"
+}
+
+### 21.3 Delete Schedule
+DELETE http://localhost:8081/schedules/2
 
 ### SCHEDULE SEATS (BOOKING) API ###
 
-### 22. Create a Schedule Seat
+### 22. Get All Schedule Seats
+GET http://localhost:8081/schedule_seats
+
+### 22.1 Create a Schedule Seat
 POST http://localhost:8081/schedule_seats
 Content-Type: application/json
 
 {
-  "schedule_id": 1,
-  "train_seat_id": 1,
+  "schedule_id": 3,
+  "train_seat_id": 2,
   "status": "AVAILABLE"
 }
 
 ### 23. Get Schedule Seats by Schedule ID
-GET http://localhost:8081/schedules/1/seats
+GET http://localhost:8081/schedules/2/seats
+
 
 ### 24. Book a Seat
-POST http://localhost:8081/schedule_seats/1/book
+POST http://localhost:8081/schedule_seats/100/book
 
 ### 25. Cancel a Seat Booking
-POST http://localhost:8081/schedule_seats/1/cancel
+POST http://localhost:8081/schedule_seats/100/cancel

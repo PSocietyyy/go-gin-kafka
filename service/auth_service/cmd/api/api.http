@@ -21,14 +21,16 @@ Content-Type: application/json
 }
 
 ### Get User By ID
-GET {{BASE_URL}}/users/1
+GET {{BASE_URL}}/users/100
 
 ### UPDATE User
 PUT {{BASE_URL}}/users/1
 Content-Type: application/json
 
 {
-    "name": "ferdiansyah pratama"
+    "name": "ferdiansyah pratama",
+    "email": "admin@example.test",
+    "password": "password"
 }
 
 ### DELETE User
@@ -41,7 +43,7 @@ Content-Type: application/json
 
 {
     "email": "ferdi@example.test",
-    "password": "password"
+    "password": "passwords"
 }
 
 ### Register
@@ -50,6 +52,6 @@ Content-Type: application/json
 
 {
     "name": "ferdiansyah",
-    "email": "ferdia@example.test",
+    "email": "ferdian@example.test",
     "password": "password"
 }

@@ -14,9 +14,17 @@ func NewScheduleSeatRepository(db *gorm.DB) *ScheduleSeatRepository {
 	return &ScheduleSeatRepository{db: db}
 }
 
+func (r *ScheduleSeatRepository) FindAll() []model.ScheduleSeat {
+	var seats []model.ScheduleSeat
+	if err := r.db.Preload("TrainSeat").Preload("Schedule").Preload("Schedule.Train").Find(&seats).Error; err != nil {
+		return nil
+	}
+	return seats
+}
+
 func (r *ScheduleSeatRepository) FindByID(id uint) (model.ScheduleSeat, error) {
 	var seat model.ScheduleSeat
-	if err := r.db.Preload("TrainSeat").Preload("Schedule").First(&seat, id).Error; err != nil {
+	if err := r.db.Preload("TrainSeat").Preload("Schedule").Preload("Schedule.Train").First(&seat, id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return model.ScheduleSeat{}, errors.ErrScheduleSeatNotFound
 		}
@@ -27,7 +35,7 @@ func (r *ScheduleSeatRepository) FindByID(id uint) (model.ScheduleSeat, error) {
 
 func (r *ScheduleSeatRepository) FindByScheduleID(scheduleID uint) []model.ScheduleSeat {
 	var seats []model.ScheduleSeat
-	if err := r.db.Where("schedule_id = ?", scheduleID).Preload("TrainSeat").Find(&seats).Error; err != nil {
+	if err := r.db.Where("schedule_id = ?", scheduleID).Preload("TrainSeat").Preload("Schedule").Preload("Schedule.Train").Find(&seats).Error; err != nil {
 		return nil
 	}
 	return seats

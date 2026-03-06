@@ -31,7 +31,7 @@ func main() {
 	// Initialize service
 	trainService := service.NewTrainService(trainRepo)
 	trainSeatService := service.NewTrainSeatService(trainSeatRepo, trainRepo)
-	scheduleService := service.NewScheduleService(scheduleRepo)
+	scheduleService := service.NewScheduleService(scheduleRepo, trainRepo)
 	scheduleSeatService := service.NewScheduleSeatService(scheduleSeatRepo)
 
 	// Initialize handler
