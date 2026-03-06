@@ -1,0 +1,34 @@
+name: Go CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "1.22"
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run go vet
+        run: go vet ./...
+
+      - name: Build API Gateway
+        run: go build ./api-gateway/cmd/api
+
+      - name: Build Auth Service
+        run: go build ./service/auth_service/cmd/api
+
+      - name: Build Order Service
+        run: go build ./service/order_service/cmd/api
+
+      - name: Build Product Service
+        run: go build ./service/product_service/cmd/api
